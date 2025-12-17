@@ -1,0 +1,29 @@
+{
+  "name": "enterprise-tools",
+  "version": "1.0.0",
+  "description": "Token-efficient enterprise tool integration for Jira, Confluence, Slack, and GitLab. Uses Skills + REST API instead of MCP for 99% token savings.",
+  "author": {
+    "name": "coreal",
+    "url": "https://github.com/coreal"
+  },
+  "homepage": "https://github.com/coreal/enterprise-tools",
+  "repository": "https://github.com/coreal/enterprise-tools",
+  "license": "MIT",
+  "keywords": [
+    "jira",
+    "confluence",
+    "slack",
+    "gitlab",
+    "enterprise",
+    "token-efficient",
+    "rest-api",
+    "skills"
+  ],
+  "engines": {
+    "claude-code": ">=1.0.0"
+  },
+  "dependencies": {
+    "python": ">=3.8",
+    "requests": ">=2.28.0"
+  }
+}

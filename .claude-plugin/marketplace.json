@@ -1,0 +1,20 @@
+{
+  "name": "enterprise-tools-marketplace",
+  "description": "Token-efficient enterprise integrations without MCP overhead",
+  "owner": {
+    "name": "coreal",
+    "url": "https://github.com/coreal"
+  },
+  "plugins": [
+    {
+      "name": "enterprise-tools",
+      "description": "Jira, Confluence, Slack, GitLab integration via Skills + REST API. 99% token savings vs MCP.",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "coreal"
+      },
+      "tags": ["enterprise", "jira", "confluence", "slack", "gitlab", "token-efficient"]
+    }
+  ]
+}
