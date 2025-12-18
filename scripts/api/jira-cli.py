@@ -83,14 +83,14 @@ def format_output(data, format_type='summary'):
 
 def search_issues(base_url, auth, jql, fields='key,summary,status,assignee', max_results=50):
     """Search issues with JQL"""
-    url = f"{base_url}/rest/api/3/search"
-    params = {
+    url = f"{base_url}/rest/api/3/search/jql"
+    payload = {
         'jql': jql,
-        'fields': fields,
+        'fields': [f.strip() for f in fields.split(',')],
         'maxResults': max_results
     }
 
-    response = requests.get(url, params=params, auth=auth, timeout=30)
+    response = requests.post(url, json=payload, auth=auth, timeout=30)
 
     if response.status_code != 200:
         print(f"ERROR: {response.status_code} - {response.text}", file=sys.stderr)
