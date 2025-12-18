@@ -17,7 +17,7 @@ This plugin provides Jira, Confluence, Slack, and GitLab integration using **Ski
 
 ```bash
 # Add marketplace from GitHub
-/plugin marketplace add coreal/enterprise-tools
+/plugin marketplace add justlight8128/enterprise-tools
 
 # Install the plugin
 /plugin install enterprise-tools@enterprise-tools-marketplace
@@ -28,9 +28,9 @@ Then **restart Claude Code**.
 ### Option 2: Local Install (for development)
 
 ```bash
-git clone https://github.com/coreal/enterprise-tools.git
+git clone https://github.com/justlight8128/enterprise-tools.git
 cd enterprise-tools
-/plugin marketplace add .
+/plugin marketplace add ./enterprise-tools
 /plugin install enterprise-tools@enterprise-tools-marketplace
 ```
 
@@ -44,7 +44,7 @@ cd enterprise-tools
 
 ```bash
 # After plugin installation, run:
-python ~/.claude/plugins/cache/enterprise-tools/scripts/setup/setup-wizard.py
+python3 ~/.claude/plugins/marketplaces/enterprise-tools-marketplace/scripts/setup/setup-wizard.py
 ```
 
 The wizard will:
@@ -150,10 +150,10 @@ After setup, just ask Claude naturally:
 
 ```bash
 # Test all connections
-python ~/.claude/plugins/cache/enterprise-tools/scripts/setup/setup-wizard.py --test
+python3 ~/.claude/plugins/marketplaces/enterprise-tools-marketplace/scripts/setup/setup-wizard.py --test
 
 # Show current config (tokens masked)
-python ~/.claude/plugins/cache/enterprise-tools/scripts/setup/setup-wizard.py --show
+python3 ~/.claude/plugins/marketplaces/enterprise-tools-marketplace/scripts/setup/setup-wizard.py --show
 ```
 
 ---
@@ -249,10 +249,10 @@ All CLI scripts support token-efficient output:
 1. **Share the repository URL** with team members
 2. Each person runs:
    ```bash
-   /plugin marketplace add coreal/enterprise-tools
+   /plugin marketplace add justlight8128/enterprise-tools
    /plugin install enterprise-tools@enterprise-tools-marketplace
    # Restart Claude Code
-   python ~/.claude/plugins/cache/enterprise-tools/scripts/setup/setup-wizard.py
+   python3 ~/.claude/plugins/marketplaces/enterprise-tools-marketplace/scripts/setup/setup-wizard.py
    ```
 3. Each person enters **their own** API tokens
 4. Tokens are stored locally, never shared
@@ -277,7 +277,7 @@ If your company has shared service accounts:
 ### "Credentials not configured"
 Run the setup wizard:
 ```bash
-python ~/.claude/plugins/cache/enterprise-tools/scripts/setup/setup-wizard.py
+python3 ~/.claude/plugins/marketplaces/enterprise-tools-marketplace/scripts/setup/setup-wizard.py
 ```
 
 ### "HTTP 401 - Unauthorized"
@@ -297,8 +297,8 @@ python ~/.claude/plugins/cache/enterprise-tools/scripts/setup/setup-wizard.py
 
 ## Support
 
-- Issues: https://github.com/coreal/enterprise-tools/issues
-- Discussions: https://github.com/coreal/enterprise-tools/discussions
+- Issues: https://github.com/justlight8128/enterprise-tools/issues
+- Discussions: https://github.com/justlight8128/enterprise-tools/discussions
 
 ## License
 
