@@ -24,7 +24,7 @@ def load_credentials():
     if not bot_token:
         cred_file = Path.home() / '.enterprise-tools' / 'credentials.env'
         if cred_file.exists():
-            with open(cred_file) as f:
+            with open(cred_file, encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
                     if '=' in line and not line.startswith('#'):
