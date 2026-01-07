@@ -14,7 +14,14 @@
       "author": {
         "name": "coreal"
       },
-      "tags": ["enterprise", "jira", "confluence", "slack", "gitlab", "token-efficient"]
+      "tags": ["enterprise", "jira", "confluence", "slack", "gitlab", "token-efficient"],
+      "skills": [
+        "./skills/enterprise-router",
+        "./skills/confluence",
+        "./skills/jira",
+        "./skills/slack",
+        "./skills/gitlab"
+      ]
     }
   ]
 }
