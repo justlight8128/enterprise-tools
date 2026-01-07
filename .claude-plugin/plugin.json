@@ -18,12 +18,5 @@
     "token-efficient",
     "rest-api",
     "skills"
-  ],
-  "engines": {
-    "claude-code": ">=1.0.0"
-  },
-  "dependencies": {
-    "python": ">=3.8",
-    "requests": ">=2.28.0"
-  }
+  ]
 }
