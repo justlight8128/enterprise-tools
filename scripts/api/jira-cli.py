@@ -30,6 +30,8 @@ def load_credentials():
     base_url = os.environ.get('JIRA_BASE_URL')
     email = os.environ.get('JIRA_EMAIL')
     token = os.environ.get('JIRA_API_TOKEN')
+    default_assignee = os.environ.get('JIRA_DEFAULT_ASSIGNEE')
+    start_date_field = os.environ.get('JIRA_START_DATE_FIELD', 'customfield_10015')
 
     if not all([base_url, email, token]):
         cred_file = Path.home() / '.enterprise-tools' / 'credentials.env'
@@ -46,13 +48,17 @@ def load_credentials():
                             email = value
                         elif key == 'JIRA_API_TOKEN':
                             token = value
+                        elif key == 'JIRA_DEFAULT_ASSIGNEE':
+                            default_assignee = value
+                        elif key == 'JIRA_START_DATE_FIELD':
+                            start_date_field = value
 
     if not all([base_url, email, token]):
         print("ERROR: Jira credentials not configured.", file=sys.stderr)
         print("Run: python setup-wizard.py --service jira", file=sys.stderr)
         sys.exit(1)
 
-    return base_url.rstrip('/'), email, token
+    return base_url.rstrip('/'), email, token, default_assignee, start_date_field
 
 
 def format_output(data, format_type='summary'):
@@ -363,13 +369,13 @@ def get_projects(base_url, auth):
     return projects
 
 
-def set_dates(base_url, auth, issue_key, start_date=None, due_date=None):
+def set_dates(base_url, auth, issue_key, start_date=None, due_date=None, start_date_field='customfield_10015'):
     """Set start date and/or due date for issue"""
     url = f"{base_url}/rest/api/3/issue/{issue_key}"
     fields = {}
 
     if start_date:
-        fields["customfield_10015"] = start_date  # Start date custom field
+        fields[start_date_field] = start_date  # Start date custom field (configurable)
     if due_date:
         fields["duedate"] = due_date
 
@@ -603,6 +609,8 @@ def main():
     create_parser.add_argument('--description', default='')
     create_parser.add_argument('--labels', help='Comma-separated labels')
     create_parser.add_argument('--assignee', help='Assignee name or email')
+    create_parser.add_argument('--assignee-me', action='store_true', dest='assignee_me',
+                               help='Assign to self (uses JIRA_EMAIL or JIRA_DEFAULT_ASSIGNEE)')
     create_parser.add_argument('--epic', help='Epic key to link to')
 
     # Update/Transition
@@ -683,7 +691,7 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    base_url, email, token = load_credentials()
+    base_url, email, token, default_assignee, start_date_field = load_credentials()
     auth = (email, token)
 
     if args.action == 'search':
@@ -697,10 +705,16 @@ def main():
     elif args.action == 'create':
         # Resolve assignee name to accountId if provided
         assignee_id = None
-        if args.assignee:
-            assignee_id = get_user_account_id(base_url, auth, args.assignee)
+        assignee_name = args.assignee
+
+        # Handle --assignee-me option
+        if args.assignee_me:
+            assignee_name = default_assignee or email  # Use default_assignee or fallback to email
+
+        if assignee_name:
+            assignee_id = get_user_account_id(base_url, auth, assignee_name)
             if not assignee_id:
-                print(f"WARNING: User '{args.assignee}' not found, creating without assignee", file=sys.stderr)
+                print(f"WARNING: User '{assignee_name}' not found, creating without assignee", file=sys.stderr)
 
         result = create_issue(base_url, auth, args.project, args.type, args.summary,
                              args.description, args.labels, assignee_id)
@@ -784,7 +798,7 @@ def main():
         if not args.start and not args.due:
             print("ERROR: Specify --start and/or --due date", file=sys.stderr)
             sys.exit(2)
-        set_dates(base_url, auth, args.issue, args.start, args.due)
+        set_dates(base_url, auth, args.issue, args.start, args.due, start_date_field)
         msgs = []
         if args.start:
             msgs.append(f"start={args.start}")
